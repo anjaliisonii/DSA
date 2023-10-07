@@ -1,0 +1,74 @@
+from typing import List
+
+
+class Solution:
+    def smallerSum(self, n : int, arr : List[int]) -> List[int]:
+        # code here
+        #BRUTE FORCE
+        # count=[0]*n
+        # for i in range (n):
+        #     sum1=0
+        #     for j in range (0,n):
+        #         if arr[i]>arr[j]:
+        #             sum1+=arr[j]
+        #     count[i]=sum1
+        # return count
+        sort_arr=[]
+        for i in arr:
+            sort_arr.append(i)
+        sort_arr.sort()
+        pre=[]
+        ans=[]
+        for i in range (n):
+            pre.append(sort_arr[i])
+        for i in range(1,len(pre)):
+            pre[i]+=pre[i-1]
+        for i in range (n):
+            pivot=arr[i]
+            start=0
+            end=n-1
+            start_index=-1
+            while start<=end:
+                mid=start+(end-start)//2
+                if pivot==sort_arr[mid]:
+                    start_index=mid
+                    end=mid-1
+                elif pivot>sort_arr[mid]:
+                    start=mid+1
+                else:
+                    end=mid-1
+            ans.append(pre[start_index]-pivot)
+        return ans
+
+
+
+#{ 
+ # Driver Code Starts
+class IntArray:
+    def __init__(self) -> None:
+        pass
+    def Input(self,n):
+        arr=[int(i) for i in input().strip().split()]#array input
+        return arr
+    def Print(self,arr):
+        for i in arr:
+            print(i,end=" ")
+        print()
+
+
+if __name__=="__main__":
+    t = int(input())
+    for _ in range(t):
+        
+        n = int(input())
+        
+        
+        arr=IntArray().Input(n)
+        
+        obj = Solution()
+        res = obj.smallerSum(n, arr)
+        
+        IntArray().Print(res)
+        
+
+# } Driver Code Ends
